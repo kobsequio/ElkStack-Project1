@@ -2,9 +2,9 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![TODO: Update the path with the name of your diagram](Images/diagram_filename.png)
+![github-small](Images/diagram_filename.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the YAML file may be used to install only certain pieces of it, such as Filebeat.
 
   - _TODO: Enter the playbook file._
 
@@ -21,76 +21,90 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly _____, in addition to restricting _____ to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly reliable, in addition to restricting access to the network.
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
-- _TODO: What does Metricbeat record?_
+- Load balancers protect against DoS attacks.
+- This ensures the accuracy of the applications as well as restricting access into the network. 
+- The advantage of "Jump-Box-Povisioner"  limiting access to one administrator.
+
+
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the machine and system logs.
+- Filebeat watches out for data on the file system, examples would be: which files have been changed and when.
+- Metricbeat records information every so often about the operating system and services running on the VM. These statistics are then instepreted to the ouput specified. In this case we are using Elasticsearch.  
 
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
-| Name     | Function | IP Address | Operating System |
-|----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-
+```git
+| Name                 | Function         | IP Address  | Operating System |
+|----------------------|------------------|-------------|------------------|
+| Jump-Box-Provisioner | Gateway          | 10.0.0.1    | Linux            |
+| Web-1                | DVWA Containers  | 10.0.0.10   | Linux            |
+| Web-2                | DVWA Containers  | 10.0.0.11   | Linux            |
+| Web-3                | DVWA Containers  | 10.0.0.12   | Linux            |
+| Project-ELK          | Configuration VM | 10.1.0.4    | Linux            |
+````
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the "Jump-Box-Provisioner" machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+- 0.0.0.0 -My personal machine-
 
 Machines within the network can only be accessed by _____.
 - _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
 
 A summary of the access policies in place can be found in the table below.
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
-
+| Name                 | Publicly Accessible | Allowed IP Addresses |
+|----------------------|---------------------|----------------------|
+| Jump Box Provisioner | Yes                 | 10.0.0.1, 0.0.0.0    |
+| Web-1                | No                  | 10.0.0.1             |
+| Web-2                | No                  | 10.0.0.1             |
+| Web-3                | No                  | 10.0.0.1             |
+| Project-ELK          | No                  | 10.0.0.1, 0.0.0.0    |
+````
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+- The main advantage of automating configuration with Ansible, is that it will eliminate human error from manually configuring machines one by one. 
 
 The playbook implements the following tasks:
 - _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+- Install Docker.io
+- Install pip3
+- Install Docker python module
+- Increase virtual memory
+- Download and launch a docker elk container
 
-The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
+The following screenshot displays the result of running `docker ps -a` after successfully configuring the ELK instance.
 
 ![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-- _TODO: List the IP addresses of the machines you are monitoring_
+- 10.0.0.10 = Web-1
+- 10.0.0.11 = Web-2
+ -10.0.0.12 = Web-3
 
 We have installed the following Beats on these machines:
-- _TODO: Specify which Beats you successfully installed_
+- Filebeat
+- Metricbeat
 
 These Beats allow us to collect the following information from each machine:
 - _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+- **Filebeat** will monitor specifically indicated log files, gather log events, and forward them to Elasticsearch or Logstash for cataloging. One example of what to expect to see is "system log events" on the dashboard.
+
+- **Metricbeat** will periodically retrieve data from services running on the server, and from the operating system. Metricbeat then gathers this data and distributes them based on the specified output. These outputs include: Logstash or Elasticsearch. One example of what to expect to see  is memory usage.
 
 ### Using the Playbook
-In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
+In order to use the playbook, you will need to have an Ansible control node already configured:
 
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+- Copy the configuration file to /etc/ansible/roles
+- Update the 'hosts' file to include **weservers** & **elk**
+- Run the playbook, and navigate to Kibana to check that the installation worked as expected.
+- Navigate to : http://<Host IP>/app/kibana#/home
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
-
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+More comprehensive information on running the Azure Cloud Environment in the instructions below:
+[Cloud Environment Instructions](https://github.com/criscollazos/cybersecurity-project-1/blob/master/Instructions%20-%20Azure%20Cloud%20Environment.md)
