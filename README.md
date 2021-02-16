@@ -33,7 +33,6 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 - Metricbeat records information every so often about the operating system and services running on the VM. These statistics are then instepreted to the ouput specified. In this case we are using Elasticsearch.  
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 ```git
 | Name                 | Function         | IP Address  | Operating System |
@@ -51,8 +50,8 @@ The machines on the internal network are not exposed to the public Internet.
 Only the "Jump-Box-Provisioner" machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
 - 0.0.0.0 -My personal machine-
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+Machines within the network can only be accessed by DVWA container, within "Jump-Box-Provisioner" VM.
+- Only my personal machine will have access to the "Project-ELK" machine, through port: 5601. This IP is: 0.0.0.0 <Personal IP>
 
 A summary of the access policies in place can be found in the table below.
 
@@ -71,7 +70,6 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 - The main advantage of automating configuration with Ansible, is that it will eliminate human error from manually configuring machines one by one. 
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
 - Install Docker.io
 - Install pip3
 - Install Docker python module
@@ -93,7 +91,7 @@ We have installed the following Beats on these machines:
 - Metricbeat
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+
 - **Filebeat** will monitor specifically indicated log files, gather log events, and forward them to Elasticsearch or Logstash for cataloging. One example of what to expect to see is "system log events" on the dashboard.
 
 - **Metricbeat** will periodically retrieve data from services running on the server, and from the operating system. Metricbeat then gathers this data and distributes them based on the specified output. These outputs include: Logstash or Elasticsearch. One example of what to expect to see  is memory usage.
