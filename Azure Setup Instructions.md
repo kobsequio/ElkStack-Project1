@@ -18,18 +18,18 @@ AZURE CLOUD ENVIRONMENT
     - ensure NSG is identical to everything else previously created
 
     Add Inbound Security Rules 
-    - create on rule that blocks incoming traffic, with a high priority number
+    - create a rule that blocks incoming traffic, with a high priority number
 
 # 2)
 ## Design the Virtual Machines
 - Create Jump Box VM
     - log into Azure account
-    - click on virtual machines box and then click new
+    - click on virtual machines box, click "Add" , click "Virtaul Machine"
     - set resource group to resource group created from Cloud Environment
     - name jump box vm something memorable ex; "Jump-Box-Provisioner"
     - use Ubuntu server with atleast 1GB of memory
     - use public SSH key from your local machine and give it a username that is memorable ex; "azureuser"
-        >use "ssh-keygen" to produce public key.
+        >use 'ssh-keygen' to produce generate key.
 
 - Network Security Group Rules
     - here is an overview of all inbound rules for Network Security Group:
@@ -38,7 +38,7 @@ AZURE CLOUD ENVIRONMENT
 - Set up Docker.io on the Jump Box VM
     - SSH into your jump-box VM using public it's public IP address
         >ensure VM is turned ON 
-        >'ssh azureuser@[public IP]
+        >'ssh azureuser@<public IP>'
 
     - Once logged in, run the following commands:
         >'sudo apt install docker.io'
@@ -51,26 +51,27 @@ AZURE CLOUD ENVIRONMENT
     - scroll to "remote-user" section and update to include new username "azureuser"
     - run 'nano /etc/ansible/hosts' 
         >uncomment the [webservers] header
-        >under the header, add the internal IP addresses of the three VMs:
-            - 10.0.0.10 ansible_python_interpreter=/usr/bin/python3
-            - 10.0.0.11 ansible_python_interpreter=/usr/bin/python3
-            - 10.0.0.12 ansible_python_interpreter=/usr/bin/python3    
+        >under the header 
+        >add the internal IP addresses of the three VMs with description: 
+        - 10.0.0.10 ansible_python_interpreter=/usr/bin/python3
+        - 10.0.0.11 ansible_python_interpreter=/usr/bin/python3
+        - 10.0.0.12 ansible_python_interpreter=/usr/bin/python3    
 
 - Create 3 Virtual Machines
     - setup three additional virtual machines
-    - name them something memorable ex; "Web-1 Web-2 Web3-3"
+    - name them something memorable ex; "Web-1 Web-2 Web-3"
     - match following criteria:
-        >allow no public IP address
-        >create new availability set, that will be set for the following three VMs
-        >name it something memorable ex; "WEB-SET"
-        >connect the VMs to the Virtual Network (VNet) and to the Network Security Group (NSG) created in the previous steps
+        - allow no public IP address
+        - create new availability set, that will be set for the following three VMs
+        - name it something memorable ex; "WEB-SET"
+        - connect the VMs to the Virtual Network (VNet) and to the Network Security Group (NSG) created in the previous steps
     - use the public SSH key from the jump-box VM docker container
     - set username to something memorable ex; "azureuser"
         >use 'ssh-keygen' to produce public key if needed on jump-box VM
     - ensure that SSH ports are open          
-        >ssh into jump-box-vm
-        >start and attach your docker container: run 'sudo docker start <DVWA>' && 'sudo docker start attach <DVWA>'
-        >once in container, SSH into each Web-VM to ensure ports are wokring
+        - ssh into jump-box-vm
+        - start and attach your docker container: run 'sudo docker start <DVWA>' && 'sudo docker start attach <DVWA>'
+        - once in container, SSH into each Web-VM to ensure ports are wokring
             - 'ssh azureuser@10.0.0.10'
             - 'ssh azureuser@10.0.0.11'
             - 'ssh azureuser@10.0.0.12'
@@ -130,7 +131,7 @@ AZURE CLOUD ENVIRONMENT
 
     - SSH into VM to ensure connection
 
-    Download and Configure the container
+- Download and Configure the container
     - add the new (Project-ELK) VM IP address to the hosts file in the ansible container (DVWA)
         >run : 'cd /etc/ansible'
         >run : 'nano hosts'
@@ -152,14 +153,14 @@ AZURE CLOUD ENVIRONMENT
     - add additional security rule that will restrict all access to "Project Elk" VM with a higher priority
 
 - Verify login into the server through Web Browser
-    - <ELK pubic IP>:5601/app/kibana
+    - (ELK public ip):5601/app/kibana
     - note public IP will alwats change upon restart
 
 # 7)
 ## Install Filebeat
 ## What is Filebeat?
-    We use Filebeat to collect, parse, and interpret ELK logs in one command
-        - this will allow for efficient tracking of our security goals
+- We use Filebeat to collect, parse, and interpret ELK logs in one command
+    - this will allow for efficient tracking of our security goals
     
 - Install FIlebeat on the DVWA Container
     - start all VMs
@@ -178,12 +179,12 @@ AZURE CLOUD ENVIRONMENT
 
 - Create Filebeat Installation Playbook
     - create the filebeat-playbook.yml in '/etc/ansible/roles'
-    - using the DEB page, add the nedded commands
+    - using the DEB page, add the needed commands
 
     - run the playbook when complete
 
 - Verify Installation and Playbook
-    - back on the Kibana webpage, "Check data" on the instruction page
+    - back on the Kibana webpage, click "Check data" on the instruction page
     - review data to ensure connection
 
 # 8)
