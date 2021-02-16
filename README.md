@@ -105,14 +105,13 @@ These Beats allow us to collect the following information from each machine:
 In order to use the playbook, you will need to have an Ansible control node already configured:
 
 SSH into the control node and follow the steps below:
-- Copy the ![Filebeat-playbook.yml](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/Filebeat%20Playbook.txt) file to /etc/ansible/roles
-- Update the 'hosts' file to include **weservers** & **elk**
+- Copy the [Filebeat-playbook.yml](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/Filebeat%20Playbook.txt) file to /etc/ansible/roles
+- Update the ['hosts'](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/hosts.txt) file to include **[webservers]** & **[elk]**
 - Run the playbook, and navigate to Kibana to check that the installation worked as expected.
 - Navigate to : http://<Host IP>/app/kibana#/home
 
 FOR REFERENCE:
 - [Filebeat-playbook.yml](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/Filebeat%20Playbook.txt)
-- [Metricbeat-playbook.yml]()
-- [ELK-playbook]()
-More comprehensive information on running the Azure Cloud Environment in the instructions below:
-[Cloud Environment Instructions](https://github.com/criscollazos/cybersecurity-project-1/blob/master/Instructions%20-%20Azure%20Cloud%20Environment.md)
+- [Metricbeat-playbook.yml](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/Metricbeat%20Playbook.txt)
+- [ELK-playbook](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/ELK-playbook.txt)
+
