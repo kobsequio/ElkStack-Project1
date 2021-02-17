@@ -24,7 +24,7 @@ AZURE CLOUD ENVIRONMENT
 ## Design the Virtual Machines
 - Create Jump Box VM
     - log into Azure account
-    - click on virtual machines box, click "Add" , click "Virtaul Machine"
+    - click on virtual machines box, click "Add" , click "Virtuaul Machine"
     - set resource group to resource group created from Cloud Environment
     - name jump box vm something memorable ex; "Jump-Box-Provisioner"
     - use Ubuntu server with atleast 1GB of memory
@@ -33,6 +33,7 @@ AZURE CLOUD ENVIRONMENT
 
 - Network Security Group Rules
     - here is an overview of all inbound rules for Network Security Group:
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Network-security-groups.png)
 
 
 - Set up Docker.io on the Jump Box VM
@@ -45,19 +46,8 @@ AZURE CLOUD ENVIRONMENT
         >'sudo docker pull cyberxsecurity/ansible'
         >launch Ansible container, run: 'docker run -ti cyberxsecurity/ansible:latest bash' to ensure its working
         >run 'exit'
-- Config and  Hosts File
-    - 'cd' into the '/etc/ansible/' directory 
-    - run 'nano ansible.cfg'
-    - scroll to "remote-user" section and update to include new username "azureuser"
-    - run 'nano /etc/ansible/hosts' 
-        >uncomment the [webservers] header
-        >under the header 
-        >add the internal IP addresses of the three VMs with description: 
-        - 10.0.0.10 ansible_python_interpreter=/usr/bin/python3
-        - 10.0.0.11 ansible_python_interpreter=/usr/bin/python3
-        - 10.0.0.12 ansible_python_interpreter=/usr/bin/python3    
-
-- Create 3 Virtual Machines
+  
+  - Create 3 Virtual Machines
     - setup three additional virtual machines
     - name them something memorable ex; "Web-1 Web-2 Web-3"
     - match following criteria:
@@ -76,6 +66,21 @@ AZURE CLOUD ENVIRONMENT
             - 'ssh azureuser@10.0.0.11'
             - 'ssh azureuser@10.0.0.12'
 
+- Here is what your VMs should look like at this point:
+1[](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-virtual-machines.png)
+
+- Config and  Hosts File
+    - 'cd' into the '/etc/ansible/' directory 
+    - run 'nano ansible.cfg'
+    - scroll to "remote-user" section and update to include new username "azureuser"
+    - run 'nano /etc/ansible/hosts' 
+        >uncomment the [webservers] header
+        >under the header 
+        >add the internal IP addresses of the three VMs with description: 
+        - 10.0.0.10 ansible_python_interpreter=/usr/bin/python3
+        - 10.0.0.11 ansible_python_interpreter=/usr/bin/python3
+        - 10.0.0.12 ansible_python_interpreter=/usr/bin/python3   
+
 # 3)
 ## Design Load Balancer
 - Create new Load Balancer
@@ -83,16 +88,19 @@ AZURE CLOUD ENVIRONMENT
     - select static IP address and set identical Resource Group and region
     - select Create New Public address
     - name Load Balancer something memorable ex; "Red-Team-Pool"
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-load-balancer.png)
     
 - Add new Health Probe 
     - use default settings
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-health-probe.png)
 
 - Create new Backend Pool and add 3 Web-VMs to it
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-backend-pools.png)
 
 # 4)
 ## Logging into Jump-Box-Provisioner
 - Log into Azure and turn ON Jump-Box-Provisioner VM
-    - 'ssh azureuser@<public IP>'
+    - 'ssh azureuser@(public IP)'
     - public IP will change everytime you turn on your Jump-Box-Provisioner VM
 
 # 5)
@@ -112,6 +120,7 @@ AZURE CLOUD ENVIRONMENT
 - Design brand new VNet (Virtual Network)
     - create new VNet that is in the same Resource Group, BUT in a different region ex; "East US"
     - name this VNet something memorable ex; "Project-Elk"
+    ![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-virtual-networks.png)
 
 - Create a peer connection between the two VNets (RedNet & EastNet)
     - in the EastNet page, click "Peerings"
@@ -120,6 +129,7 @@ AZURE CLOUD ENVIRONMENT
     - name it something memorable ex; "Elk-to-Red"
     - create a new connection from RedNet(Vnet) to Project-Elk(VNet)
     - name it something memorable ex; "Red-to-Elk"
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-peerings.png)
 
 - Design New Virtual Machine
     - create with Ubuntu VM : 4GB minimum RAM size 
@@ -136,12 +146,13 @@ AZURE CLOUD ENVIRONMENT
         >run : 'cd /etc/ansible'
         >run : 'nano hosts'
     - add "Project-ELK" ip under new [elk] group
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/hosts-file.png)
 
     Create a playbook that will Configure the "Poject ELK" VM. 
-    - ![elk-playbook]
+    - ![elk-playbook](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/ELK-playbook.txt)
 
 - Launch and Expose the Container
-    - Run Playbook 
+    - Run created Elk Playbook 
     - 'ansible-playbook elk-playbook.yml'
     - SSH into "Project-ELK" VM 
     - run 'docker ps -a'
@@ -151,7 +162,7 @@ AZURE CLOUD ENVIRONMENT
     - We will restrict access to "Project-ELK" VM through "Project-Elk-nsg" (NSG)
     - in NSG for "Project-ELK" , add an inbound rule that will allow the access from local machine to "Project-ELK" on port:5601
     - add additional security rule that will restrict all access to "Project Elk" VM with a higher priority
-
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-Elk-NSG.png)
 - Verify login into the server through Web Browser
     - (ELK public ip):5601/app/kibana
     - note public IP will alwats change upon restart
@@ -166,8 +177,8 @@ AZURE CLOUD ENVIRONMENT
     - start all VMs
     - access the Kibana page and ensure connection
     - start DVWA container through jump-box-provisioner VM
-        >run : 'sudo docker start <DVWA>'
-        >run : 'sudo docker attach <DVWA>'
+        >run : 'sudo docker start (DVWA)'
+        >run : 'sudo docker attach (DVWA)'
     - switch to the Kibana page and find DEB page for creating a system log and use this guide to create our filebeat-playbook.yml
 
 - Create Filebeat Configuration file
