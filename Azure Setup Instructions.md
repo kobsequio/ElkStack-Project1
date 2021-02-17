@@ -163,6 +163,7 @@ AZURE CLOUD ENVIRONMENT
     - in NSG for "Project-ELK" , add an inbound rule that will allow the access from local machine to "Project-ELK" on port:5601
     - add additional security rule that will restrict all access to "Project Elk" VM with a higher priority
 ![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-Elk-NSG.png)
+
 - Verify login into the server through Web Browser
     - (ELK public ip):5601/app/kibana
     - note public IP will alwats change upon restart
