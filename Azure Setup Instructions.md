@@ -149,7 +149,7 @@ AZURE CLOUD ENVIRONMENT
 
     
    - Create a playbook that will Configure the "Poject ELK" VM. 
-   - ![elk-playbook](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/ELK-playbook.txt)
+   - [elk-playbook](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/ELK-playbook.txt)
 
 - Launch and Expose the Container
     - Run created Elk Playbook 
@@ -196,7 +196,7 @@ AZURE CLOUD ENVIRONMENT
     - run the playbook when complete
 
 - Verify Installation and Playbook
-    - back on the Kibana webpage, click "Check data" on the instruction page
+    - return to the Kibana webpage, click "Check data" on the instruction page
     - review data to ensure connection
 
 # 8)
