@@ -147,8 +147,9 @@ AZURE CLOUD ENVIRONMENT
     - add "Project-ELK" ip under new [elk] group
 ![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/hosts-file.png)
 
-    Create a playbook that will Configure the "Poject ELK" VM. 
-    - ![elk-playbook](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/ELK-playbook.txt)
+    
+   - Create a playbook that will Configure the "Poject ELK" VM. 
+   - ![elk-playbook](https://github.com/kobsequio/ElkStack-Project1/blob/main/Ansible/ELK-playbook.txt)
 
 - Launch and Expose the Container
     - Run created Elk Playbook 
