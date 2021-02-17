@@ -31,15 +31,10 @@ AZURE CLOUD ENVIRONMENT
     - use public SSH key from your local machine and give it a username that is memorable ex; "azureuser"
         >use 'ssh-keygen' to produce generate key.
 
-- Network Security Group Rules
-    - here is an overview of all inbound rules for Network Security Group:
-![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Network-security-groups.png)
-
-
 - Set up Docker.io on the Jump Box VM
     - SSH into your jump-box VM using public it's public IP address
         >ensure VM is turned ON 
-        >'ssh azureuser@<public IP>'
+        >'ssh azureuser@(public IP)'
 
     - Once logged in, run the following commands:
         >'sudo apt install docker.io'
@@ -67,7 +62,7 @@ AZURE CLOUD ENVIRONMENT
             - 'ssh azureuser@10.0.0.12'
 
 - Here is what your VMs should look like at this point:
-1[](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-virtual-machines.png)
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Azure-virtual-machines.png)
 
 - Config and  Hosts File
     - 'cd' into the '/etc/ansible/' directory 
@@ -114,6 +109,10 @@ AZURE CLOUD ENVIRONMENT
         > 'sudo docker start <DVWA name>'
         > 'sudo docker attach <DVWA name>'
     - to ensure connection run: 'whoami'
+
+- Network Security Group Rules
+    - here is an overview of all inbound rules for Network Security Group:
+![](https://github.com/kobsequio/ElkStack-Project1/blob/main/Diagrams/Azure%20Instructions/Network-security-groups.png)
 
 ## 6)
 # Install ELK Stack
